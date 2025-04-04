@@ -4,6 +4,13 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
     }
+
+    versionCatalogs {
+        libs {
+            version('java', '21')
+            version('google-java-format', '1.17.0')
+        }
+    }
 }
 
 include '01-presentation'
