@@ -1,1 +1,10 @@
 rootProject.name = 'TraMed'
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+
+include '01-presentation'
+include '01-presentation:web-api'
