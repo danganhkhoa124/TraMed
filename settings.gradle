@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 include '01-presentation'
 include '01-presentation:web-api'
+include '02-application-core'
+include '02-application-core:system-management'
