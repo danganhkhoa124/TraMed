@@ -1,0 +1,10 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+    implementation 'org.postgresql:postgresql:42.7.1'
+
+    implementation 'com.ninja-squad:DbSetup:2.1.0'
+    testImplementation 'org.assertj:assertj-db:2.0.2'
+
+    runtimeOnly 'org.postgresql:postgresql'
+}
