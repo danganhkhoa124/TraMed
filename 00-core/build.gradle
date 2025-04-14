@@ -1,0 +1,7 @@
+group = 'com.tramed.backend'
+version = '0.0.1-SNAPSHOT'
+
+subprojects {
+    group = 'com.tramed.backend.core'
+    version = '0.0.1-SNAPSHOT'
+}

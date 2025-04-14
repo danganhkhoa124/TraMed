@@ -13,6 +13,8 @@ dependencyResolutionManagement {
     }
 }
 
+include '00-core'
+include '00-core:base'
 include '01-presentation'
 include '01-presentation:web-api'
 include '02-application-core'
