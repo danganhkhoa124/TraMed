@@ -1,3 +1,6 @@
 dependencies {
     implementation project(':00-core:base')
+    implementation project(':03-infrastructure:mybatis')
+
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 }
