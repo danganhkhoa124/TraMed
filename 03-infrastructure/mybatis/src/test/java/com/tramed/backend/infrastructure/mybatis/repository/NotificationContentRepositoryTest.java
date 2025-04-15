@@ -4,8 +4,8 @@ import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
 
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.operation.Operation;
+import com.tramed.backend.core.base.model.notification.NotificationQueryResult;
 import com.tramed.backend.infrastructure.mybatis.config.DbSetupConfig;
-import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -47,7 +47,7 @@ public class NotificationContentRepositoryTest {
     @Test
     @DisplayName("Should not throw error")
     void success() {
-      List<NotificationContentEntity> results =
+      List<NotificationQueryResult> results =
           notificationContentRepository.fetchNotificationContentByLocale("");
 
       Assertions.assertThat(results).isNotNull();

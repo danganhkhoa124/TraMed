@@ -7,4 +7,6 @@ dependencies {
     testImplementation 'org.assertj:assertj-db:2.0.2'
 
     runtimeOnly 'org.postgresql:postgresql'
+
+    implementation project(':00-core:base')
 }
