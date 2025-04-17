@@ -1,6 +1,8 @@
 package com.tramed.backend.infrastructure.mybatis.repository;
 
+import com.tramed.backend.core.base.model.common.Locale;
 import com.tramed.backend.core.base.model.notification.NotificationQueryResult;
+import com.tramed.backend.core.base.pagination.PageRequest;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity;
 import com.tramed.backend.infrastructure.mybatis.mapper.NotificationContentMapper;
 import java.util.Collections;
@@ -20,17 +22,26 @@ public class NotificationContentRepository {
   /**
    * Fetch all notification in system
    *
-   * @param locale Locale of notification
    * @return List of notification
    */
-  public List<NotificationQueryResult> fetchNotificationContentByLocale(String locale) {
+  public List<NotificationQueryResult> fetchNotificationLocaleVN(PageRequest pageRequest) {
     List<NotificationContentEntity> notificationContentEntities =
-        notificationContentMapper.fetchNotificationContentByLocale(locale);
+        notificationContentMapper.fetchNotificationContent(
+            pageRequest.getOffset(), pageRequest.getPageSize(), Locale.VI_VN);
 
     return notificationContentEntities.isEmpty()
         ? Collections.emptyList()
         : notificationContentEntities.stream()
             .map(NotificationContentEntity::toNotificationQueryResult)
             .collect(Collectors.toList());
+  }
+
+  /**
+   * Count the total number of notification content by locale
+   *
+   * @return the total number of notification content
+   */
+  public int countNotificationContent(Locale locale) {
+    return notificationContentMapper.countNotificationContent(locale);
   }
 }

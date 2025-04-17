@@ -5,6 +5,7 @@ import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.operation.Operation;
 import com.tramed.backend.core.base.model.notification.NotificationQueryResult;
+import com.tramed.backend.core.base.pagination.PageRequest;
 import com.tramed.backend.infrastructure.mybatis.config.DbSetupConfig;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -47,8 +48,9 @@ public class NotificationContentRepositoryTest {
     @Test
     @DisplayName("Should not throw error")
     void success() {
+      PageRequest request = new PageRequest(1, 10, List.of());
       List<NotificationQueryResult> results =
-          notificationContentRepository.fetchNotificationContentByLocale("");
+          notificationContentRepository.fetchNotificationLocaleVN(request);
 
       Assertions.assertThat(results).isNotNull();
       results.forEach(System.out::println);

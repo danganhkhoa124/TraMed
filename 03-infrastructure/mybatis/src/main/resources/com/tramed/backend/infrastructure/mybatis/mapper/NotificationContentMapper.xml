@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tramed.backend.infrastructure.mybatis.mapper.NotificationContentMapper">
-  <select id="fetchNotificationContentByLocale" resultType="com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity">
+  <select id="fetchNotificationContent" resultType="com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity">
     SELECT
       noti_cont.notification_content_id,
       noti_cont.notification_id,
@@ -15,8 +15,29 @@
                 ON noti.notification_id = noti_cont.notification_id
     WHERE
       1=1
-      <if test="locale != null and locale != ''">
-        AND noti_cont.locale = #{locale}
+      <if test="locale != null and locale.value != ''">
+        AND noti_cont.locale = #{locale.value}
       </if>
+    ORDER BY notification_id
+    <if test="limit != -1">
+      OFFSET #{offset} ROWS
+      FETCH NEXT #{limit} ROWS ONLY
+    </if>
+    ;
+  </select>
+
+  <select id="countNotificationContent" resultType="int">
+    SELECT
+      COUNT(*)
+    FROM
+        notification noti
+            INNER JOIN notification_content noti_cont
+                ON noti.notification_id = noti_cont.notification_id
+    WHERE
+      1=1
+      <if test="locale != null and locale.value != ''">
+        AND noti_cont.locale = #{locale.value}
+      </if>
+    ;
   </select>
 </mapper>

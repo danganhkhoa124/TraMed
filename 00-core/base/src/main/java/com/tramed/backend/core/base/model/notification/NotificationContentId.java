@@ -5,11 +5,11 @@ import java.util.UUID;
 /**
  * ID of notification content
  *
- * @param notificationContentId UUID of notification content
+ * @param value UUID of notification content
  */
-public record NotificationContentId(UUID notificationContentId) {
+public record NotificationContentId(UUID value) {
   public NotificationContentId {
-    if (notificationContentId == null) {
+    if (value == null) {
       throw new NullPointerException("notificationContentId is null");
     }
   }

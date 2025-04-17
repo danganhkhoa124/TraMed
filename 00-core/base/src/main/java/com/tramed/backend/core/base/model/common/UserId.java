@@ -5,11 +5,11 @@ import java.util.UUID;
 /**
  * ID of user was logging
  *
- * @param userId UUID of user id
+ * @param value UUID of user id
  */
-public record UserId(UUID userId) {
+public record UserId(UUID value) {
   public UserId {
-    if (userId == null) {
+    if (value == null) {
       throw new NullPointerException("userId is null");
     }
   }
