@@ -1,4 +1,4 @@
-package com.tramed.backend.applicationcore.systemmanagement.service.greeting;
+package com.tramed.backend.applicationcore.systemcore.service.greeting;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation project(':00-core:base')
-    implementation project(':02-application-core:system-management')
+    implementation project(':02-tramed-application-core:system-core')
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 

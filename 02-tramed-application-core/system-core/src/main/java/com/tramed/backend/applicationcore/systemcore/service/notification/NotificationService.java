@@ -1,4 +1,4 @@
-package com.tramed.backend.applicationcore.systemmanagement.service.notification;
+package com.tramed.backend.applicationcore.systemcore.service.notification;
 
 import com.tramed.backend.core.base.model.common.Locale;
 import com.tramed.backend.core.base.model.notification.NotificationQueryResult;

@@ -1,6 +1,6 @@
 package com.tramed.backend.presentation.webapi.controller.notification;
 
-import com.tramed.backend.applicationcore.systemmanagement.service.notification.NotificationService;
+import com.tramed.backend.applicationcore.systemcore.service.notification.NotificationService;
 import com.tramed.backend.core.base.model.notification.NotificationQueryResult;
 import com.tramed.backend.core.base.pagination.PageModel;
 import com.tramed.backend.core.base.pagination.PageRequest;

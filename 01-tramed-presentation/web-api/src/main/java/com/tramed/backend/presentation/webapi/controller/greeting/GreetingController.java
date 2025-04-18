@@ -1,6 +1,6 @@
 package com.tramed.backend.presentation.webapi.controller.greeting;
 
-import com.tramed.backend.applicationcore.systemmanagement.service.greeting.GreetingService;
+import com.tramed.backend.applicationcore.systemcore.service.greeting.GreetingService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
