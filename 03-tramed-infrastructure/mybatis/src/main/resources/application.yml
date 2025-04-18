@@ -18,6 +18,5 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-  mapper-locations: classpath:com/tramed/backend/infrastructure/mybatis/mapper/*.xml
   type-aliases-package: com.tramed.backend.infrastructure.mybatis.entity
   type-handlers-package: com.tramed.backend.infrastructure.mybatis.typehandler

@@ -48,8 +48,7 @@ public class MyBastisConfig {
         .register(EnumDBColumn.class, EnumValueJavaConventionTypeHandler.class);
     sqlSessionFactoryBean.setConfiguration(configuration);
     sqlSessionFactoryBean.setMapperLocations(
-        new PathMatchingResourcePatternResolver()
-            .getResources("classpath:com/tramed/backend/infrastructure/mybatis/mapper/*.xml"));
+        new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/**/*.xml"));
     return sqlSessionFactoryBean.getObject();
   }
 
