@@ -8,5 +8,5 @@ dependencies {
 
     runtimeOnly 'org.postgresql:postgresql'
 
-    implementation project(':00-core:base')
+    implementation project(':00-tramed-core:base')
 }
