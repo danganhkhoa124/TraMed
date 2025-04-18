@@ -14,7 +14,7 @@
             INNER JOIN notification_content noti_cont
                 ON noti.notification_id = noti_cont.notification_id
     WHERE
-      1=1
+      noti.logic_del_flg != true
       <if test="locale != null and locale.value != ''">
         AND noti_cont.locale = #{locale.value}
       </if>
@@ -34,7 +34,7 @@
             INNER JOIN notification_content noti_cont
                 ON noti.notification_id = noti_cont.notification_id
     WHERE
-      1=1
+      noti.logic_del_flg != true
       <if test="locale != null and locale.value != ''">
         AND noti_cont.locale = #{locale.value}
       </if>

@@ -1,6 +1,7 @@
 -- Tạo bảng notification
 CREATE TABLE IF NOT EXISTS notification (
                                             notification_id UUID PRIMARY KEY,
+                                            logic_del_flg BOOLEAN DEFAULT FALSE,
                                             created_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                                             created_by UUID NOT NULL
 );
