@@ -41,6 +41,8 @@ public class NotificationQueryResultToNotificationForQueryResponse
         source.content(),
         source.locale().getValue(),
         source.createdBy().value(),
-        source.createdDate());
+        source.createdDate(),
+        source.updateBy() == null ? null : source.updateBy().value(),
+        source.updateDate());
   }
 }

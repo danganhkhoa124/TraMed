@@ -2,6 +2,7 @@ package com.tramed.backend.presentation.webapi.conversion;
 
 import com.tramed.backend.core.base.conversion.ConversionStrategy;
 import com.tramed.backend.presentation.webapi.conversion.strategy.NotificationQueryResultToNotificationForQueryResponse;
+import com.tramed.backend.presentation.webapi.conversion.strategy.NotificationRequestToNotificationForCreateUpdate;
 import com.tramed.backend.presentation.webapi.conversion.strategy.PageableRequestToPageable;
 import java.util.Map;
 import java.util.Optional;
@@ -17,6 +18,7 @@ public class ConversionStrategies {
   static {
     addStrategy(new PageableRequestToPageable());
     addStrategy(new NotificationQueryResultToNotificationForQueryResponse());
+    addStrategy(new NotificationRequestToNotificationForCreateUpdate());
   }
 
   /**

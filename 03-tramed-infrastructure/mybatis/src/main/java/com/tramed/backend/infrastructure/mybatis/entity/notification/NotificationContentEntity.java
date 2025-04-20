@@ -17,6 +17,8 @@ import java.util.UUID;
  * @param locale locale en_US/vi_VN
  * @param createdDate date of create the notification content
  * @param createdBy user create this notification content
+ * @param updateDate date of update the notification content
+ * @param updateBy user update this notification content
  */
 public record NotificationContentEntity(
     UUID notificationContentId,
@@ -24,7 +26,9 @@ public record NotificationContentEntity(
     String content,
     Locale locale,
     Instant createdDate,
-    UUID createdBy) {
+    UUID createdBy,
+    Instant updateDate,
+    UUID updateBy) {
 
   /**
    * Build NotificationQueryResult from entity
@@ -38,6 +42,8 @@ public record NotificationContentEntity(
         content,
         locale,
         new UserId(createdBy),
-        createdDate);
+        createdDate,
+        updateBy == null ? null : new UserId(updateBy),
+        updateDate);
   }
 }

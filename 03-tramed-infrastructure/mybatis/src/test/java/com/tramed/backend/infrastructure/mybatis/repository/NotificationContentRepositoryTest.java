@@ -4,6 +4,7 @@ import static com.ninja_squad.dbsetup.Operations.deleteAllFrom;
 
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.operation.Operation;
+import com.tramed.backend.core.base.model.common.Locale;
 import com.tramed.backend.core.base.model.notification.NotificationQueryResult;
 import com.tramed.backend.core.base.pagination.PageRequest;
 import com.tramed.backend.infrastructure.mybatis.config.DbSetupConfig;
@@ -50,7 +51,7 @@ public class NotificationContentRepositoryTest {
     void success() {
       PageRequest request = new PageRequest(1, 10, List.of());
       List<NotificationQueryResult> results =
-          notificationContentRepository.fetchNotificationLocaleVN(request);
+          notificationContentRepository.fetchNotificationByLocale(Locale.VI_VN, request);
 
       Assertions.assertThat(results).isNotNull();
       results.forEach(System.out::println);

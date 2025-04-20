@@ -13,6 +13,8 @@ import java.time.Instant;
  * @param locale notification locale
  * @param createdBy who was created a notification content
  * @param createdDate when was created a notification content
+ * @param updateBy who was updated a notification content
+ * @param updateDate when was updated a notification content
  */
 public record NotificationQueryResult(
     NotificationContentId notificationContentId,
@@ -20,4 +22,6 @@ public record NotificationQueryResult(
     String content,
     Locale locale,
     UserId createdBy,
-    Instant createdDate) {}
+    Instant createdDate,
+    UserId updateBy,
+    Instant updateDate) {}

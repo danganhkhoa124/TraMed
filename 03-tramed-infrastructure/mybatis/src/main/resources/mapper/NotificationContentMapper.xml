@@ -8,7 +8,9 @@
       noti_cont.content,
       noti_cont.locale,
       noti_cont.created_date,
-      noti_cont.created_by
+      noti_cont.created_by,
+      noti_cont.update_date,
+      noti_cont.update_by
     FROM
         notification noti
             INNER JOIN notification_content noti_cont
@@ -40,4 +42,38 @@
       </if>
     ;
   </select>
+
+  <insert id="insertNotification" parameterType="com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationEntity">
+    INSERT INTO notification (
+      notification_id,
+      logic_del_flg
+    )
+    VALUES (
+             #{notificationId},
+             #{logicDelFlg}
+           )
+  </insert>
+
+  <insert id="insertNotificationContent" parameterType="com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity">
+    INSERT INTO notification_content (
+      notification_content_id,
+      notification_id,
+      content,
+      locale,
+      created_date,
+      created_by,
+      update_date,
+      update_by
+    )
+    VALUES (
+             #{notificationContentId},
+             #{notificationId},
+             #{content},
+             #{locale.value},
+             #{createdDate},
+             #{createdBy},
+             #{updateDate},
+             #{updateBy}
+           )
+  </insert>
 </mapper>

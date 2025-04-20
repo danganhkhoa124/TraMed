@@ -4,6 +4,7 @@ import com.tramed.backend.core.base.model.common.Locale;
 import com.tramed.backend.core.base.model.notification.NotificationQueryResult;
 import com.tramed.backend.core.base.pagination.PageRequest;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity;
+import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationEntity;
 import com.tramed.backend.infrastructure.mybatis.mapper.NotificationContentMapper;
 import java.util.Collections;
 import java.util.List;
@@ -24,10 +25,11 @@ public class NotificationContentRepository {
    *
    * @return List of notification
    */
-  public List<NotificationQueryResult> fetchNotificationLocaleVN(PageRequest pageRequest) {
+  public List<NotificationQueryResult> fetchNotificationByLocale(
+      Locale locale, PageRequest pageRequest) {
     List<NotificationContentEntity> notificationContentEntities =
         notificationContentMapper.fetchNotificationContent(
-            pageRequest.getOffset(), pageRequest.getPageSize(), Locale.VI_VN);
+            pageRequest.getOffset(), pageRequest.getPageSize(), locale);
 
     return notificationContentEntities.isEmpty()
         ? Collections.emptyList()
@@ -43,5 +45,23 @@ public class NotificationContentRepository {
    */
   public int countNotificationContent(Locale locale) {
     return notificationContentMapper.countNotificationContent(locale);
+  }
+
+  /**
+   * Insert a new notification into database
+   *
+   * @param notificationEntity The entity presenting the notification to insert
+   */
+  public void insertNotification(NotificationEntity notificationEntity) {
+    notificationContentMapper.insertNotification(notificationEntity);
+  }
+
+  /**
+   * Insert a new notification content into database
+   *
+   * @param notificationContentEntity The entity presenting the notification content to insert
+   */
+  public void insertNotificationContent(NotificationContentEntity notificationContentEntity) {
+    notificationContentMapper.insertNotificationContent(notificationContentEntity);
   }
 }

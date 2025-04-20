@@ -15,4 +15,17 @@ public enum Locale implements EnumDBColumn {
   public String value() {
     return value;
   }
+
+  public static Locale fromValue(String value) {
+    if (value == null || value.isEmpty()) {
+      return null;
+    }
+
+    for (Locale locale : values()) {
+      if (locale.getValue().equalsIgnoreCase(value)) {
+        return locale;
+      }
+    }
+    throw new IllegalArgumentException("Invalid Locale: " + value);
+  }
 }
