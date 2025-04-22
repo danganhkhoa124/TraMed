@@ -8,6 +8,7 @@ import com.tramed.backend.infrastructure.mybatis.entity.notification.Notificatio
 import com.tramed.backend.infrastructure.mybatis.mapper.NotificationContentMapper;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,27 @@ public class NotificationContentRepository {
    */
   public int countNotificationContent(Locale locale) {
     return notificationContentMapper.countNotificationContent(locale);
+  }
+
+  /**
+   * Check exists for notification
+   *
+   * @param notificationId ID of Notification
+   * @return true if it exists
+   */
+  public boolean existsByNotificationId(UUID notificationId) {
+    return notificationContentMapper.existsByNotificationId(notificationId);
+  }
+
+  /**
+   * Check duplicate for notification content
+   *
+   * @param locale Locale
+   * @param notificationId String
+   * @return true if it exists
+   */
+  public boolean checkDuplicateNotificationContent(Locale locale, UUID notificationId) {
+    return notificationContentMapper.checkDuplicateNotificationContent(locale, notificationId);
   }
 
   /**

@@ -17,6 +17,7 @@ dependencyResolutionManagement {
 
 include '00-tramed-core'
 include '00-tramed-core:base'
+include '00-tramed-core:utils'
 include '01-tramed-presentation'
 include '01-tramed-presentation:web-api'
 include '02-tramed-application-core'

@@ -55,23 +55,33 @@ public class NotificationService {
   public void insertNotification(NotificationForCreateUpdate notificationForCreateUpdate) {
     // Hard code userId, update later when implement spring security
     UserId userId = new UserId(UUID.fromString("22222222-2222-2222-2222-222222222222"));
-
+    Locale locale = notificationForCreateUpdate.locale();
     NotificationId notificationId = notificationForCreateUpdate.notificationId();
-    NotificationContentId notificationContentId =
-        new NotificationContentId(Generators.timeBasedEpochGenerator().generate());
-
-    if (notificationForCreateUpdate.notificationId() == null) {
+    if (notificationId == null) {
       notificationId = new NotificationId(Generators.timeBasedEpochGenerator().generate());
-      NotificationEntity notificationEntity = new NotificationEntity(notificationId.value(), false);
-      notificationContentRepository.insertNotification(notificationEntity);
+      notificationContentRepository.insertNotification(
+          new NotificationEntity(notificationId.value(), false));
+    } else {
+      if (!notificationContentRepository.existsByNotificationId(notificationId.value())) {
+        throw new IllegalArgumentException(
+            "Notification does not exist: " + notificationId.value());
+      }
+
+      if (notificationContentRepository.checkDuplicateNotificationContent(
+          locale, notificationId.value())) {
+        throw new IllegalArgumentException(
+            "Duplicate notification id: " + notificationId.value() + " and locale: " + locale);
+      }
     }
 
+    NotificationContentId notificationContentId =
+        new NotificationContentId(Generators.timeBasedEpochGenerator().generate());
     NotificationContentEntity notificationContentEntity =
         new NotificationContentEntity(
             notificationContentId.value(),
             notificationId.value(),
             notificationForCreateUpdate.content(),
-            notificationForCreateUpdate.locale(),
+            locale,
             Instant.now(),
             userId.value(),
             null,

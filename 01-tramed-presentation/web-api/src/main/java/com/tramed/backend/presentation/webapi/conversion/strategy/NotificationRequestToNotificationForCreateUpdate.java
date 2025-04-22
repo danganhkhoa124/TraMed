@@ -4,6 +4,7 @@ import com.tramed.backend.core.base.conversion.ConversionStrategy;
 import com.tramed.backend.core.base.model.common.Locale;
 import com.tramed.backend.core.base.model.notification.NotificationForCreateUpdate;
 import com.tramed.backend.core.base.model.notification.NotificationId;
+import com.tramed.backend.core.utils.common.ConvertUtils;
 import com.tramed.backend.presentation.webapi.model.notification.NotificationRequestForCreateUpdate;
 
 public class NotificationRequestToNotificationForCreateUpdate
@@ -38,7 +39,7 @@ public class NotificationRequestToNotificationForCreateUpdate
   @Override
   public NotificationForCreateUpdate convert(NotificationRequestForCreateUpdate source) {
     return new NotificationForCreateUpdate(
-        source.notificationId() != null ? new NotificationId(source.notificationId()) : null,
+        ConvertUtils.convertStringToObjectUUID(source.notificationId(), NotificationId.class),
         source.content(),
         Locale.fromValue(source.locale()));
   }

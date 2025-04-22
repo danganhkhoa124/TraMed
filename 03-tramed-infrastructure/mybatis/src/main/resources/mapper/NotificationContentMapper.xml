@@ -43,6 +43,31 @@
     ;
   </select>
 
+  <select id="existsByNotificationId" resultType="boolean">
+    SELECT
+      COUNT(*)
+    FROM
+      notification noti
+    WHERE
+      noti.logic_del_flg != true
+      AND noti.notification_id = #{notificationId}
+    ;
+  </select>
+
+  <select id="checkDuplicateNotificationContent" resultType="boolean">
+    SELECT
+      COUNT(*)
+    FROM
+      notification noti
+          INNER JOIN notification_content noti_cont
+              ON noti.notification_id = noti_cont.notification_id
+    WHERE
+      noti.logic_del_flg != true
+      AND noti_cont.locale = #{locale.value}
+      AND noti_cont.notification_id = #{notificationId}
+    ;
+  </select>
+
   <insert id="insertNotification" parameterType="com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationEntity">
     INSERT INTO notification (
       notification_id,

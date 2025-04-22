@@ -4,6 +4,7 @@ import com.tramed.backend.core.base.model.common.Locale;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationEntity;
 import java.util.List;
+import java.util.UUID;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,6 +29,24 @@ public interface NotificationContentMapper {
    * @return the total number of notification content
    */
   int countNotificationContent(@Param("locale") Locale locale);
+
+  /**
+   * Check duplicate for notification
+   *
+   * @param notificationId ID of Notification
+   * @return true if it exists
+   */
+  boolean existsByNotificationId(@Param("notificationId") UUID notificationId);
+
+  /**
+   * Check duplicate for notification content
+   *
+   * @param locale The locale of notification
+   * @param notificationId ID of Notification
+   * @return true if it exists
+   */
+  boolean checkDuplicateNotificationContent(
+      @Param("locale") Locale locale, @Param("notificationId") UUID notificationId);
 
   /**
    * Insert a new notification into database
