@@ -9,8 +9,8 @@ public class GreetingService {
 
   public String sayHello(String name) {
     if (name != null && !name.isEmpty()) {
-      return "Hello " + name + "!";
+      return "Hello " + name;
     }
-    return "Hello World!";
+    return "Hello world";
   }
 }
