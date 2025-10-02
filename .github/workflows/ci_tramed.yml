@@ -1,0 +1,82 @@
+name: Build and Format Check
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+      - converted_to_draft
+
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Make Gradle executable
+        run: chmod +x gradlew
+
+      - name: Detect changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            build_all:
+              - '.github/workflows/**'
+              - 'build.gradle'
+              - 'settings.gradle'
+              - 'gradle/**'
+              - 'gradlew'
+              - 'gradlew.bat'
+            core_base:
+              - '00-tramed-core/base/**'
+            core_utils:
+              - '00-tramed-core/utils/**'
+            presentation_web_api:
+              - '01-tramed-presentation/web-api/**'
+            application_system_core:
+              - '02-tramed-application-core/system-core/**'
+            infrastructure_mybatis:
+              - '03-tramed-infrastructure/mybatis/**'
+
+      - name: Run Spotless check
+        run: ./gradlew spotlessCheck --no-daemon
+
+      - name: Build 00-tramed-core:base
+        if: steps.changes.outputs.core_base == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :00-tramed-core:base:build --no-daemon
+
+      - name: Build 00-tramed-core:utils
+        if: steps.changes.outputs.core_utils == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :00-tramed-core:utils:build --no-daemon
+
+      - name: Build 01-tramed-presentation:web-api
+        if: steps.changes.outputs.presentation_web_api == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :01-tramed-presentation:web-api:build --no-daemon
+
+      - name: Build 02-tramed-application-core:system-core
+        if: steps.changes.outputs.application_system_core == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :02-tramed-application-core:system-core:build --no-daemon
+
+      - name: Build 03-tramed-infrastructure:mybatis
+        if: steps.changes.outputs.infrastructure_mybatis == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :03-tramed-infrastructure:mybatis:build --no-daemon
