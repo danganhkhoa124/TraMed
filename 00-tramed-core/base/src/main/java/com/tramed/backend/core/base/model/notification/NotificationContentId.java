@@ -1,5 +1,6 @@
 package com.tramed.backend.core.base.model.notification;
 
+import com.tramed.backend.core.base.exception.InvalidArgumentModelException;
 import java.util.UUID;
 
 /**
@@ -10,7 +11,7 @@ import java.util.UUID;
 public record NotificationContentId(UUID value) {
   public NotificationContentId {
     if (value == null) {
-      throw new NullPointerException("notificationContentId is null");
+      throw new InvalidArgumentModelException("notificationContentId is null");
     }
   }
 }

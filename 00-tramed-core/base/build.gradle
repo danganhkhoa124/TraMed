@@ -1,1 +1,3 @@
-dependencies {}
+dependencies {
+    implementation project(':00-tramed-core:utils')
+}

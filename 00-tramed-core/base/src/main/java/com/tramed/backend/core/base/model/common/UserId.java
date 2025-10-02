@@ -1,5 +1,6 @@
 package com.tramed.backend.core.base.model.common;
 
+import com.tramed.backend.core.base.exception.InvalidArgumentModelException;
 import java.util.UUID;
 
 /**
@@ -10,7 +11,7 @@ import java.util.UUID;
 public record UserId(UUID value) {
   public UserId {
     if (value == null) {
-      throw new NullPointerException("userId is null");
+      throw new InvalidArgumentModelException("userId is null");
     }
   }
 }
