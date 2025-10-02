@@ -1,6 +1,8 @@
 package com.tramed.backend.applicationcore.systemcore.service.notification;
 
 import com.fasterxml.uuid.Generators;
+import com.tramed.backend.core.base.exception.NotFoundResourceException;
+import com.tramed.backend.core.base.exception.PreconditionException;
 import com.tramed.backend.core.base.model.common.Locale;
 import com.tramed.backend.core.base.model.common.UserId;
 import com.tramed.backend.core.base.model.notification.NotificationContentId;
@@ -63,13 +65,13 @@ public class NotificationService {
           new NotificationEntity(notificationId.value(), false));
     } else {
       if (!notificationContentRepository.existsByNotificationId(notificationId.value())) {
-        throw new IllegalArgumentException(
+        throw new NotFoundResourceException(
             "Notification does not exist: " + notificationId.value());
       }
 
       if (notificationContentRepository.checkDuplicateNotificationContent(
           locale, notificationId.value())) {
-        throw new IllegalArgumentException(
+        throw new PreconditionException(
             "Duplicate notification id: " + notificationId.value() + " and locale: " + locale);
       }
     }
