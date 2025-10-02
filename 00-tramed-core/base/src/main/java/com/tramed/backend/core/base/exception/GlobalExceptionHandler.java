@@ -53,12 +53,12 @@ public class GlobalExceptionHandler {
     return response;
   }
 
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
   @ExceptionHandler(NotFoundResourceException.class)
   public ApiResponse handleValidationExceptions(NotFoundResourceException ex) {
     final MultiRecordErrorResponse response =
         new MultiRecordErrorResponse(
-            HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
+            HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase());
 
     String message = getMessageValue(ex.getMessage(), (Object) null);
     response.addFirstRecordDetail(null, ex.getMessage(), message);

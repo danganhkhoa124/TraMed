@@ -82,6 +82,7 @@ public class MultiRecordErrorResponse implements ApiResponse {
    * @param errorCode
    * @param value
    */
+  @SuppressWarnings("unchecked")
   public void addRecordDetail(
       @NotBlank String field, @NotBlank String errorCode, @NotBlank String value) {
     List<Map<String, String>> valueList;
@@ -111,6 +112,7 @@ public class MultiRecordErrorResponse implements ApiResponse {
    * @param field
    * @param value
    */
+  @SuppressWarnings("unchecked")
   public void addRecordDetail(@NotBlank String field, @NotBlank String value) {
     List<String> valueList;
 

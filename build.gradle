@@ -37,6 +37,7 @@ subprojects {
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'com.diffplug.spotless'
+    apply plugin: 'jacoco'
 
 	spotless {
 		java {
@@ -64,8 +65,17 @@ subprojects {
 		implementation libs.java.uuid.generator
 	}
 
-	test {
-		useJUnitPlatform()
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+        finalizedBy(tasks.named('jacocoTestReport'))
+    }
+
+    tasks.named('jacocoTestReport') {
+        dependsOn(tasks.withType(Test))
+    }
+
+    tasks.named('check') {
+        dependsOn(tasks.named('jacocoTestReport'))
 	}
 
 	bootJar {
