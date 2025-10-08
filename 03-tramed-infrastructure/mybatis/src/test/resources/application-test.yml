@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tramed
-    username: postgres
-    password: tramed@2025
+    url: "jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:tramed}"
+    username: "${DB_USER:postgres}"
+    password: "${DB_PASSWORD:test@2025}"
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
