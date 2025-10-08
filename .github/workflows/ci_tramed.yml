@@ -19,6 +19,26 @@ on:
 jobs:
   gradle:
     runs-on: ubuntu-latest
+    env:
+      CI_DB_HOST: localhost
+      CI_DB_PORT: '5432'
+      CI_DB_USER: ${{ secrets.DB_USER }}
+      CI_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      CI_DB_NAME: ${{ secrets.DB_NAME }}
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: ${{ env.CI_DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.CI_DB_PASSWORD }}
+          POSTGRES_DB: ${{ env.CI_DB_NAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U ${{ env.CI_DB_USER }}"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
     permissions:
       contents: read
     steps:
@@ -57,6 +77,32 @@ jobs:
               - '02-tramed-application-core/system-core/**'
             infrastructure_mybatis:
               - '03-tramed-infrastructure/mybatis/**'
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Wait for PostgreSQL
+        env:
+          PGHOST: ${{ env.CI_DB_HOST }}
+          PGPORT: ${{ env.CI_DB_PORT }}
+          PGUSER: ${{ env.CI_DB_USER }}
+          PGPASSWORD: ${{ env.CI_DB_PASSWORD }}
+        run: |
+          until pg_isready; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 5
+          done
+
+      - name: Initialize database schema
+        env:
+          PGHOST: ${{ env.CI_DB_HOST }}
+          PGPORT: ${{ env.CI_DB_PORT }}
+          PGUSER: ${{ env.CI_DB_USER }}
+          PGPASSWORD: ${{ env.CI_DB_PASSWORD }}
+          PGDATABASE: ${{ env.CI_DB_NAME }}
+        run: |
+          psql -f database/init.sql
+          psql -f database/seed.sql
 
       - name: Run Spotless check
         run: ./gradlew spotlessCheck --no-daemon
