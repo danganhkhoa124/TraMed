@@ -29,13 +29,13 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_USER: ${{ env.CI_DB_USER }}
-          POSTGRES_PASSWORD: ${{ env.CI_DB_PASSWORD }}
-          POSTGRES_DB: ${{ env.CI_DB_NAME }}
+          POSTGRES_USER: testUser
+          POSTGRES_PASSWORD: abcd@1234
+          POSTGRES_DB: testDb
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U ${{ env.CI_DB_USER }}"
+          --health-cmd="pg_isready -U testUser"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
