@@ -1,0 +1,125 @@
+name: Build and Format Check
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+      - converted_to_draft
+
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+    env:
+      CI_DB_HOST: localhost
+      CI_DB_PORT: '5432'
+      CI_DB_USER: testUser
+      CI_DB_PASSWORD: abcd@1234
+      CI_DB_NAME: testDb
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: testUser
+          POSTGRES_PASSWORD: abcd@1234
+          POSTGRES_DB: testDb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U testUser"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Make Gradle executable
+        run: chmod +x gradlew
+
+      - name: Detect changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            build_all:
+              - '.github/workflows/**'
+              - 'build.gradle'
+              - 'settings.gradle'
+              - 'gradle/**'
+              - 'gradlew'
+              - 'gradlew.bat'
+            core_base:
+              - '00-tramed-core/base/**'
+            core_utils:
+              - '00-tramed-core/utils/**'
+            presentation_web_api:
+              - '01-tramed-presentation/web-api/**'
+            application_system_core:
+              - '02-tramed-application-core/system-core/**'
+            infrastructure_mybatis:
+              - '03-tramed-infrastructure/mybatis/**'
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Wait for PostgreSQL
+        env:
+          PGHOST: ${{ env.CI_DB_HOST }}
+          PGPORT: ${{ env.CI_DB_PORT }}
+          PGUSER: ${{ env.CI_DB_USER }}
+          PGPASSWORD: ${{ env.CI_DB_PASSWORD }}
+        run: |
+          until pg_isready; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 5
+          done
+      - name: Initialize database schema
+        env:
+          PGHOST: ${{ env.CI_DB_HOST }}
+          PGPORT: ${{ env.CI_DB_PORT }}
+          PGUSER: ${{ env.CI_DB_USER }}
+          PGPASSWORD: ${{ env.CI_DB_PASSWORD }}
+          PGDATABASE: ${{ env.CI_DB_NAME }}
+        run: |
+          psql -f database/init.sql
+          psql -f database/seed.sql
+      - name: Run Spotless check
+        run: ./gradlew spotlessCheck --no-daemon
+
+      - name: Build 00-tramed-core:base
+        if: steps.changes.outputs.core_base == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :00-tramed-core:base:build --no-daemon
+
+      - name: Build 00-tramed-core:utils
+        if: steps.changes.outputs.core_utils == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :00-tramed-core:utils:build --no-daemon
+
+      - name: Build 01-tramed-presentation:web-api
+        if: steps.changes.outputs.presentation_web_api == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :01-tramed-presentation:web-api:build --no-daemon
+
+      - name: Build 02-tramed-application-core:system-core
+        if: steps.changes.outputs.application_system_core == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :02-tramed-application-core:system-core:build --no-daemon
+
+      - name: Build 03-tramed-infrastructure:mybatis
+        if: steps.changes.outputs.infrastructure_mybatis == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :03-tramed-infrastructure:mybatis:build --no-daemon
