@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:testDb}
+    username: ${DB_USER:testUser}
+    password: ${DB_PASSWORD:abcd@1234}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 5
+      connection-timeout: 30000
+  mybatis:
+    configuration:
+      map-underscore-to-camel-case: true
+    type-aliases-package: com.tramed.backend.infrastructure.mybatis.entity
+    type-handlers-package: com.tramed.backend.infrastructure.mybatis.typehandler

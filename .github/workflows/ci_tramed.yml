@@ -123,3 +123,7 @@ jobs:
       - name: Build 03-tramed-infrastructure:mybatis
         if: steps.changes.outputs.infrastructure_mybatis == 'true' || steps.changes.outputs.build_all == 'true'
         run: ./gradlew :03-tramed-infrastructure:mybatis:build --no-daemon
+
+      - name: Run 01-tramed-presentation:web-api integration tests
+        if: steps.changes.outputs.presentation_web_api == 'true' || steps.changes.outputs.build_all == 'true'
+        run: ./gradlew :01-tramed-presentation:web-api:integrationTest --no-daemon
