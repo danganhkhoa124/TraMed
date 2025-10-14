@@ -14,6 +14,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.json.JsonCompareMode;
 
 public class NotificationControllerListIT extends BaseIntegrationTest {
 
@@ -34,6 +35,7 @@ public class NotificationControllerListIT extends BaseIntegrationTest {
 
   private final NotificationTestDataHelper notificationTestDataHelper;
 
+  @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
   @Autowired
   public NotificationControllerListIT(NotificationTestDataHelper notificationTestDataHelper) {
     this.notificationTestDataHelper = notificationTestDataHelper;
@@ -53,7 +55,7 @@ public class NotificationControllerListIT extends BaseIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody))
         .andExpect(status().isOk())
-        .andExpect(content().json(expectedResponse, true));
+        .andExpect(content().json(expectedResponse, JsonCompareMode.STRICT));
   }
 
   @Test
@@ -70,7 +72,7 @@ public class NotificationControllerListIT extends BaseIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody))
         .andExpect(status().isOk())
-        .andExpect(content().json(expectedResponse, true));
+        .andExpect(content().json(expectedResponse, JsonCompareMode.STRICT));
   }
 
   private void insertNotificationFixtures() {
