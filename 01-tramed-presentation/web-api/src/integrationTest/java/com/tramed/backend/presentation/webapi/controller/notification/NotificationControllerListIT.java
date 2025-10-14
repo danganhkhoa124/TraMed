@@ -12,9 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
 public class NotificationControllerListIT extends BaseIntegrationTest {
 
@@ -34,8 +32,11 @@ public class NotificationControllerListIT extends BaseIntegrationTest {
   private static final UUID HIDDEN_CONTENT_ID =
       UUID.fromString("cccccccc-cccc-cccc-cccc-ccccccccccc3");
 
-  @Autowired private MockMvc mockMvc;
-  @Autowired private NotificationTestDataHelper notificationTestDataHelper;
+  private final NotificationTestDataHelper notificationTestDataHelper;
+
+  public NotificationControllerListIT(NotificationTestDataHelper notificationTestDataHelper) {
+    this.notificationTestDataHelper = notificationTestDataHelper;
+  }
 
   @Test
   void shouldReturnNotificationsForVietnameseLocale() throws Exception {
@@ -44,7 +45,7 @@ public class NotificationControllerListIT extends BaseIntegrationTest {
     String requestBody = readJson("request/notification/list/with-locale-vi.json");
     String expectedResponse = readJson("response/notification/list/with-locale-vi.json");
 
-    mockMvc
+    mockMvc()
         .perform(
             post(BASE_URL)
                 .param("locale", "vi-VN")
@@ -61,7 +62,7 @@ public class NotificationControllerListIT extends BaseIntegrationTest {
     String requestBody = readJson("request/notification/list/with-locale-en.json");
     String expectedResponse = readJson("response/notification/list/with-locale-en.json");
 
-    mockMvc
+    mockMvc()
         .perform(
             post(BASE_URL)
                 .param("locale", "en-US")

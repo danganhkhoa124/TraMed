@@ -17,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StreamUtils;
 
 @SpringBootTest(classes = WebApiApplication.class)
@@ -29,6 +30,7 @@ public abstract class BaseIntegrationTest {
       WireMockExtension.newInstance().options(wireMockConfig().dynamicPort()).build();
 
   @Autowired private DatabaseCleanup databaseCleanup;
+  @Autowired private MockMvc mockMvc;
 
   @DynamicPropertySource
   static void registerWireMockBaseUrl(DynamicPropertyRegistry registry) {
@@ -38,6 +40,10 @@ public abstract class BaseIntegrationTest {
   @BeforeEach
   void resetDatabase() {
     databaseCleanup.clean();
+  }
+
+  protected MockMvc mockMvc() {
+    return mockMvc;
   }
 
   protected String readJson(String path) {

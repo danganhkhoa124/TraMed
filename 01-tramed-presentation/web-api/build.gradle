@@ -11,8 +11,8 @@ sourceSets {
     integrationTest {
         java.srcDir file('src/integrationTest/java')
         resources.srcDir file('src/integrationTest/resources')
-        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
-        runtimeClasspath += output + compileClasspath
+        compileClasspath += sourceSets.main.output + configurations.testCompileClasspath
+        runtimeClasspath += output + compileClasspath + configurations.testRuntimeClasspath
     }
 }
 
@@ -26,6 +26,8 @@ dependencies {
     implementation project(':00-tramed-core:utils')
     implementation project(':02-tramed-application-core:system-core')
     implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.register('integrationTest', Test) {
@@ -34,6 +36,10 @@ tasks.register('integrationTest', Test) {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
     shouldRunAfter('test')
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('integrationTest')
 }
 
 bootJar {
