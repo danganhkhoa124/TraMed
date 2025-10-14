@@ -29,8 +29,14 @@ public abstract class BaseIntegrationTest {
   protected static final WireMockExtension WIRE_MOCK_SERVER =
       WireMockExtension.newInstance().options(wireMockConfig().dynamicPort()).build();
 
-  @Autowired private DatabaseCleanup databaseCleanup;
-  @Autowired private MockMvc mockMvc;
+  private DatabaseCleanup databaseCleanup;
+  private MockMvc mockMvc;
+
+  @Autowired
+  void setUpDependencies(DatabaseCleanup databaseCleanup, MockMvc mockMvc) {
+    this.databaseCleanup = databaseCleanup;
+    this.mockMvc = mockMvc;
+  }
 
   @DynamicPropertySource
   static void registerWireMockBaseUrl(DynamicPropertyRegistry registry) {
