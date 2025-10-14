@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 public class NotificationControllerListIT extends BaseIntegrationTest {
@@ -34,6 +35,7 @@ public class NotificationControllerListIT extends BaseIntegrationTest {
 
   private final NotificationTestDataHelper notificationTestDataHelper;
 
+  @Autowired
   public NotificationControllerListIT(NotificationTestDataHelper notificationTestDataHelper) {
     this.notificationTestDataHelper = notificationTestDataHelper;
   }

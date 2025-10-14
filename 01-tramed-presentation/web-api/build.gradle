@@ -26,7 +26,7 @@ configurations {
 configurations.configureEach { configuration ->
     if (configuration.name.toLowerCase().contains('test')) {
         configuration.resolutionStrategy.eachDependency { details ->
-            if (details.requested.group == 'org.eclipse.jetty') {
+            if (details.requested.group in ['org.eclipse.jetty', 'org.eclipse.jetty.http2']) {
                 details.useVersion('11.0.17')
                 details.because('WireMock 3.0.1 is built against Jetty 11 APIs')
             }
