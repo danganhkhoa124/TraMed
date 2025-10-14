@@ -32,6 +32,7 @@ public abstract class BaseIntegrationTest {
   private DatabaseCleanup databaseCleanup;
   private MockMvc mockMvc;
 
+  @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
   @Autowired
   void setUpDependencies(DatabaseCleanup databaseCleanup, MockMvc mockMvc) {
     this.databaseCleanup = databaseCleanup;
