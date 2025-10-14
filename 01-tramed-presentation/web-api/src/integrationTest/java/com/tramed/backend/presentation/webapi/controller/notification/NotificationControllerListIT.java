@@ -18,8 +18,7 @@ import org.springframework.http.MediaType;
 public class NotificationControllerListIT extends BaseIntegrationTest {
 
   private static final String BASE_URL = "/tra-med-api/notification/list";
-  private static final UUID CREATOR_ID =
-      UUID.fromString("55555555-5555-5555-5555-555555555555");
+  private static final UUID CREATOR_ID = UUID.fromString("55555555-5555-5555-5555-555555555555");
   private static final UUID FIRST_NOTIFICATION_ID =
       UUID.fromString("11111111-1111-1111-1111-111111111111");
   private static final UUID SECOND_NOTIFICATION_ID =

@@ -14,9 +14,9 @@ public class NotificationTestDataHelper {
   private static final String INSERT_NOTIFICATION =
       "INSERT INTO notification (notification_id, logic_del_flg) VALUES (:notificationId, :logicDeleted)";
   private static final String INSERT_NOTIFICATION_CONTENT =
-      "INSERT INTO notification_content (" +
-      "notification_content_id, notification_id, content, locale, created_date, created_by, update_date, update_by" +
-      ") VALUES (:notificationContentId, :notificationId, :content, :locale, :createdDate, :createdBy, :updatedDate, :updatedBy)";
+      "INSERT INTO notification_content ("
+          + "notification_content_id, notification_id, content, locale, created_date, created_by, update_date, update_by"
+          + ") VALUES (:notificationContentId, :notificationId, :content, :locale, :createdDate, :createdBy, :updatedDate, :updatedBy)";
 
   private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -67,7 +67,14 @@ public class NotificationTestDataHelper {
         OffsetDateTime createdDate,
         UUID createdBy) {
       return new NotificationContentRow(
-          notificationContentId, notificationId, content, locale, createdDate, createdBy, null, null);
+          notificationContentId,
+          notificationId,
+          content,
+          locale,
+          createdDate,
+          createdBy,
+          null,
+          null);
     }
   }
 }
