@@ -1,5 +1,3 @@
-import org.gradle.api.file.DuplicatesStrategy
-
 plugins {
     id 'java'
     id 'org.springframework.boot'
@@ -13,25 +11,14 @@ sourceSets {
     integrationTest {
         java.srcDir file('src/integrationTest/java')
         resources.srcDir file('src/integrationTest/resources')
-        compileClasspath += sourceSets.main.output + configurations.testCompileClasspath
-        runtimeClasspath += output + compileClasspath + configurations.testRuntimeClasspath
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += output + compileClasspath
     }
 }
 
 configurations {
     integrationTestImplementation.extendsFrom testImplementation
     integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
-}
-
-configurations.configureEach { configuration ->
-    if (configuration.name.toLowerCase().contains('test')) {
-        configuration.resolutionStrategy.eachDependency { details ->
-            if (details.requested.group in ['org.eclipse.jetty', 'org.eclipse.jetty.http2']) {
-                details.useVersion('11.0.17')
-                details.because('WireMock 3.0.1 is built against Jetty 11 APIs')
-            }
-        }
-    }
 }
 
 dependencies {

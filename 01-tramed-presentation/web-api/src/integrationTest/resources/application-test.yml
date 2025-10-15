@@ -8,8 +8,3 @@ spring:
       minimum-idle: 1
       maximum-pool-size: 5
       connection-timeout: 30000
-  mybatis:
-    configuration:
-      map-underscore-to-camel-case: true
-    type-aliases-package: com.tramed.backend.infrastructure.mybatis.entity
-    type-handlers-package: com.tramed.backend.infrastructure.mybatis.typehandler
