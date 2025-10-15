@@ -1,6 +1,7 @@
 package com.tramed.backend.presentation.webapi.support;
 
 import com.tramed.backend.presentation.webapi.WebApiApplication;
+import com.tramed.backend.presentation.webapi.support.IntegrationTest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -14,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StreamUtils;
 
+@IntegrationTest
 @SpringBootTest(classes = WebApiApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
