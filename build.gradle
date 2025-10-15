@@ -80,11 +80,14 @@ subprojects {
     tasks.withType(Test).configureEach {
         environment localEnv
         useJUnitPlatform()
-        finalizedBy(tasks.named('jacocoTestReport'))
+
+        if (name == 'test') {
+            finalizedBy(tasks.named('jacocoTestReport'))
+        }
     }
 
     tasks.named('jacocoTestReport') {
-        dependsOn(tasks.withType(Test))
+        dependsOn(tasks.matching { it.name == 'test' })
     }
 
     tasks.named('check') {
