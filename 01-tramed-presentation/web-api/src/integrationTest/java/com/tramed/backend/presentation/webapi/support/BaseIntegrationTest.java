@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StreamUtils;
 
+@IntegrationTest
 @SpringBootTest(classes = WebApiApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")

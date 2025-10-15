@@ -36,6 +36,9 @@ tasks.register('integrationTest', Test) {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
     shouldRunAfter('test')
+    useJUnitPlatform {
+        includeTags 'integration'
+    }
 }
 
 tasks.named('check') {
@@ -44,6 +47,12 @@ tasks.named('check') {
 
 tasks.named('processIntegrationTestResources') {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.named('test') {
+    useJUnitPlatform {
+        excludeTags 'integration'
+    }
 }
 
 bootJar {
