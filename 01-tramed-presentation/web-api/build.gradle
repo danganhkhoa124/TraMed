@@ -7,11 +7,43 @@ plugins {
 group = 'com.tramed.backend'
 version = '0.0.1-SNAPSHOT'
 
+sourceSets {
+    integrationTest {
+        java.srcDir file('src/integrationTest/java')
+        resources.srcDir file('src/integrationTest/resources')
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
 dependencies {
     implementation project(':00-tramed-core:base')
     implementation project(':00-tramed-core:utils')
     implementation project(':02-tramed-application-core:system-core')
     implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs the integration tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter('test')
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('integrationTest')
+}
+
+tasks.named('processIntegrationTestResources') {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 bootJar {
