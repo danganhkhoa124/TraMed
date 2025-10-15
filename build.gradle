@@ -27,6 +27,13 @@ configurations {
 
 dependencies {}
 
+// build.gradle (root)
+def localEnv = new Properties()
+def envFile = file("local.env")
+if (envFile.exists()) {
+    envFile.withInputStream { localEnv.load(it) }
+}
+
 subprojects {
 	repositories {
 		mavenCentral()
@@ -67,7 +74,13 @@ subprojects {
 		implementation libs.java.uuid.generator
 	}
 
+    // Spring Boot app run
+    tasks.matching { it.name == 'bootRun' }.configureEach {
+        environment localEnv   // all variables local.env into process
+    }
+
     tasks.withType(Test).configureEach {
+        environment localEnv
         useJUnitPlatform()
         finalizedBy(tasks.named('jacocoTestReport'))
     }
