@@ -132,7 +132,8 @@ class NotificationControllerTest {
             notificationId.toString(), "Reminder", Locale.EN_US.getValue());
 
     NotificationForCreateUpdate expectedRequest =
-        new NotificationForCreateUpdate(new NotificationId(notificationId), "Reminder", Locale.EN_US);
+        new NotificationForCreateUpdate(
+            new NotificationId(notificationId), "Reminder", Locale.EN_US);
 
     ResponseEntity<?> response = notificationController.createNotification(request);
 
@@ -164,7 +165,8 @@ class NotificationControllerTest {
             notificationId.toString(), "Reminder", Locale.EN_US.getValue());
 
     NotificationForCreateUpdate expectedRequest =
-        new NotificationForCreateUpdate(new NotificationId(notificationId), "Reminder", Locale.EN_US);
+        new NotificationForCreateUpdate(
+            new NotificationId(notificationId), "Reminder", Locale.EN_US);
 
     doThrow(new PreconditionException("duplicate"))
         .when(notificationService)

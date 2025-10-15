@@ -1,7 +1,6 @@
 package com.tramed.backend.presentation.webapi.support;
 
 import com.tramed.backend.presentation.webapi.WebApiApplication;
-import com.tramed.backend.presentation.webapi.support.IntegrationTest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
