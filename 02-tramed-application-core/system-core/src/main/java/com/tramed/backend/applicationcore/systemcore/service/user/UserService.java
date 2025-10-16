@@ -6,10 +6,10 @@ import com.tramed.backend.core.base.exception.PreconditionException;
 import com.tramed.backend.core.base.model.common.UserId;
 import com.tramed.backend.core.base.model.user.User;
 import com.tramed.backend.core.base.model.user.UserRole;
+import com.tramed.backend.core.base.security.PasswordHasher;
 import com.tramed.backend.infrastructure.mybatis.repository.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
   private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
+  private final PasswordHasher passwordHasher;
 
   public Optional<User> findByUsername(String username) {
     return userRepository.findByUsername(username);
@@ -42,7 +42,7 @@ public class UserService {
         new User(
             userId,
             command.username(),
-            passwordEncoder.encode(command.password()),
+            passwordHasher.encode(command.password()),
             command.fullName(),
             false,
             UserRole.USER);
