@@ -1,3 +1,13 @@
+-- Tạo bảng app_user
+CREATE TABLE IF NOT EXISTS app_user (
+                                        user_id UUID PRIMARY KEY,
+                                        username VARCHAR(100) UNIQUE NOT NULL,
+                                        password_hash VARCHAR(255) NOT NULL,
+                                        full_name VARCHAR(255),
+                                        active BOOLEAN DEFAULT TRUE,
+                                        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Tạo bảng notification
 CREATE TABLE IF NOT EXISTS notification (
                                             notification_id UUID PRIMARY KEY,
@@ -17,5 +27,11 @@ CREATE TABLE IF NOT EXISTS notification_content (
                                                     CONSTRAINT fk_notification
                                                         FOREIGN KEY (notification_id)
                                                             REFERENCES notification (notification_id)
-                                                            ON DELETE CASCADE
+                                                            ON DELETE CASCADE,
+                                                    CONSTRAINT fk_notification_created_by
+                                                        FOREIGN KEY (created_by)
+                                                            REFERENCES app_user (user_id),
+                                                    CONSTRAINT fk_notification_update_by
+                                                        FOREIGN KEY (update_by)
+                                                            REFERENCES app_user (user_id)
 );

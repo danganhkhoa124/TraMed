@@ -1,3 +1,8 @@
+-- Thêm dữ liệu mẫu vào bảng app_user
+INSERT INTO app_user (user_id, username, password_hash, full_name, active) VALUES
+                                                                              ('22222222-2222-2222-2222-222222222222', 'admin', '$2a$10$Dow1Ns/WSavwgJeayQM2jOB0ax3CjSxyxYh1SeDsICoZ6irMIXP3C', 'Administrator', true)
+ON CONFLICT (user_id) DO NOTHING;
+
 -- Thêm dữ liệu mẫu vào bảng notification
 INSERT INTO notification (notification_id, logic_del_flg) VALUES
                                                            ('11111111-1111-1111-1111-111111111111', false),

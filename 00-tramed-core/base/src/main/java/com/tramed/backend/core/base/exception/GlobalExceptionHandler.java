@@ -87,6 +87,19 @@ public class GlobalExceptionHandler {
     return response;
   }
 
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  @ExceptionHandler(UnauthorizedException.class)
+  public ApiResponse handleUnauthorizedException(UnauthorizedException ex) {
+    final MultiRecordErrorResponse response =
+        new MultiRecordErrorResponse(
+            HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+
+    String message = getMessageValue(ex.getMessage(), (Object) null);
+    response.addFirstRecordDetail(EXCEPTION, message != null ? message : ex.getMessage());
+
+    return response;
+  }
+
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ExceptionHandler(NullPointerException.class)
   public ApiResponse handleNullPointerException(NullPointerException ex) {

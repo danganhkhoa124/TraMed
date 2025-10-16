@@ -11,21 +11,27 @@ import com.tramed.backend.core.base.model.notification.NotificationId;
 import com.tramed.backend.core.base.model.notification.NotificationQueryResult;
 import com.tramed.backend.core.base.pagination.PageModel;
 import com.tramed.backend.core.base.pagination.PageRequest;
+import com.tramed.backend.applicationcore.systemcore.service.BaseService;
+import com.tramed.backend.core.base.security.AuthenticatedUserProvider;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationEntity;
 import com.tramed.backend.infrastructure.mybatis.repository.NotificationContentRepository;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
-public class NotificationService {
+public class NotificationService extends BaseService {
 
   private final NotificationContentRepository notificationContentRepository;
+
+  public NotificationService(
+      NotificationContentRepository notificationContentRepository,
+      AuthenticatedUserProvider authenticatedUserProvider) {
+    super(authenticatedUserProvider);
+    this.notificationContentRepository = notificationContentRepository;
+  }
 
   /**
    * Fetch list of notification with locale VN
@@ -55,8 +61,7 @@ public class NotificationService {
    */
   @Transactional
   public void insertNotification(NotificationForCreateUpdate notificationForCreateUpdate) {
-    // Hard code userId, update later when implement spring security
-    UserId userId = new UserId(UUID.fromString("22222222-2222-2222-2222-222222222222"));
+    UserId userId = requireCurrentUserId();
     Locale locale = notificationForCreateUpdate.locale();
     NotificationId notificationId = notificationForCreateUpdate.notificationId();
     if (notificationId == null) {

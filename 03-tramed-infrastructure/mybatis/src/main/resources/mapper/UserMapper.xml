@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tramed.backend.infrastructure.mybatis.mapper.UserMapper">
+  <select id="findByUsername" resultType="com.tramed.backend.infrastructure.mybatis.entity.user.UserEntity">
+    SELECT
+      user_id,
+      username,
+      password_hash,
+      full_name,
+      active
+    FROM
+      app_user
+    WHERE
+      username = #{username}
+    LIMIT 1
+  </select>
+</mapper>
