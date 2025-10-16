@@ -31,36 +31,29 @@ public class SecurityConfig {
     "/tra-med-api/auth/login", "/tra-med-api/auth/register"
   };
 
-  private final JwtAuthenticationFilter jwtAuthenticationFilter;
-  private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-  private final ApplicationUserDetailsService userDetailsService;
-  private final boolean securityEnabled;
+  private final Environment environment;
 
-  public SecurityConfig(
-      JwtAuthenticationFilter jwtAuthenticationFilter,
-      JwtAuthenticationEntryPoint authenticationEntryPoint,
-      ApplicationUserDetailsService userDetailsService,
-      Environment environment) {
-    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    this.authenticationEntryPoint = authenticationEntryPoint;
-    this.userDetailsService = userDetailsService;
-    this.securityEnabled =
-        Arrays.stream(environment.getActiveProfiles())
-            .noneMatch(profile -> profile.equalsIgnoreCase("test"));
+  public SecurityConfig(Environment environment) {
+    this.environment = environment;
   }
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(
+      HttpSecurity http,
+      JwtAuthenticationEntryPoint authenticationEntryPoint,
+      JwtAuthenticationFilter jwtAuthenticationFilter,
+      DaoAuthenticationProvider authenticationProvider)
+      throws Exception {
     http.csrf(csrf -> csrf.disable())
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-    if (securityEnabled) {
+    if (securityEnabled()) {
       http.exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
           .authorizeHttpRequests(
               auth ->
                   auth.requestMatchers(AUTH_WHITELIST).permitAll().anyRequest().authenticated());
-      http.authenticationProvider(authenticationProvider());
+      http.authenticationProvider(authenticationProvider);
       http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     } else {
       http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
@@ -75,10 +68,11 @@ public class SecurityConfig {
   }
 
   @Bean
-  public DaoAuthenticationProvider authenticationProvider() {
+  public DaoAuthenticationProvider authenticationProvider(
+      ApplicationUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
     provider.setUserDetailsService(userDetailsService);
-    provider.setPasswordEncoder(passwordEncoder());
+    provider.setPasswordEncoder(passwordEncoder);
     return provider;
   }
 
@@ -86,5 +80,10 @@ public class SecurityConfig {
   public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
       throws Exception {
     return configuration.getAuthenticationManager();
+  }
+
+  private boolean securityEnabled() {
+    return Arrays.stream(environment.getActiveProfiles())
+        .noneMatch(profile -> profile.equalsIgnoreCase("test"));
   }
 }
