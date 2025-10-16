@@ -28,11 +28,5 @@ CREATE TABLE IF NOT EXISTS notification_content (
                                                     CONSTRAINT fk_notification
                                                         FOREIGN KEY (notification_id)
                                                             REFERENCES notification (notification_id)
-                                                            ON DELETE CASCADE,
-                                                    CONSTRAINT fk_notification_created_by
-                                                        FOREIGN KEY (created_by)
-                                                            REFERENCES app_user (user_id),
-                                                    CONSTRAINT fk_notification_update_by
-                                                        FOREIGN KEY (update_by)
-                                                            REFERENCES app_user (user_id)
+                                                            ON DELETE CASCADE
 );

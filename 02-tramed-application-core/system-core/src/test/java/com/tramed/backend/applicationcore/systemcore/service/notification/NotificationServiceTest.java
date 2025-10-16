@@ -46,7 +46,8 @@ class NotificationServiceTest {
         new NotificationService(notificationContentRepository, authenticatedUserProvider);
     lenient()
         .when(authenticatedUserProvider.getCurrentUserId())
-        .thenReturn(Optional.of(new UserId(UUID.fromString("22222222-2222-2222-2222-222222222222"))));
+        .thenReturn(
+            Optional.of(new UserId(UUID.fromString("22222222-2222-2222-2222-222222222222"))));
   }
 
   @Test

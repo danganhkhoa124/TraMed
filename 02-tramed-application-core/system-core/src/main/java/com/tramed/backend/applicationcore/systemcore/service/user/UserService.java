@@ -54,13 +54,16 @@ public class UserService {
   @Transactional
   public User updateUserStatus(UserId userId, boolean active) {
     User user =
-        userRepository
-            .findById(userId)
-            .orElseThrow(() -> new NotFoundResourceException("E0007"));
+        userRepository.findById(userId).orElseThrow(() -> new NotFoundResourceException("E0007"));
 
     User updatedUser =
         new User(
-            user.userId(), user.username(), user.passwordHash(), user.fullName(), active, user.role());
+            user.userId(),
+            user.username(),
+            user.passwordHash(),
+            user.fullName(),
+            active,
+            user.role());
     userRepository.updateStatus(userId, active);
     return updatedUser;
   }

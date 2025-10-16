@@ -1,6 +1,7 @@
 package com.tramed.backend.applicationcore.systemcore.service.notification;
 
 import com.fasterxml.uuid.Generators;
+import com.tramed.backend.applicationcore.systemcore.service.BaseService;
 import com.tramed.backend.core.base.exception.NotFoundResourceException;
 import com.tramed.backend.core.base.exception.PreconditionException;
 import com.tramed.backend.core.base.model.common.Locale;
@@ -11,7 +12,6 @@ import com.tramed.backend.core.base.model.notification.NotificationId;
 import com.tramed.backend.core.base.model.notification.NotificationQueryResult;
 import com.tramed.backend.core.base.pagination.PageModel;
 import com.tramed.backend.core.base.pagination.PageRequest;
-import com.tramed.backend.applicationcore.systemcore.service.BaseService;
 import com.tramed.backend.core.base.security.AuthenticatedUserProvider;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationEntity;

@@ -3,9 +3,7 @@ package com.tramed.backend.core.base.security;
 import com.tramed.backend.core.base.model.common.UserId;
 import java.util.Optional;
 
-/**
- * Provides access to information about the authenticated user in the current execution context.
- */
+/** Provides access to information about the authenticated user in the current execution context. */
 public interface AuthenticatedUserProvider {
   /**
    * Returns the identifier of the authenticated user if available.

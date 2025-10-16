@@ -7,10 +7,16 @@ import java.util.UUID;
 
 /** Entity representing an application user in the persistence layer. */
 public record UserEntity(
-    UUID userId, String username, String passwordHash, String fullName, boolean active, String role) {
+    UUID userId,
+    String username,
+    String passwordHash,
+    String fullName,
+    boolean active,
+    String role) {
 
   public User toDomain() {
-    return new User(new UserId(userId), username, passwordHash, fullName, active, UserRole.valueOf(role));
+    return new User(
+        new UserId(userId), username, passwordHash, fullName, active, UserRole.valueOf(role));
   }
 
   public static UserEntity fromDomain(User user) {
