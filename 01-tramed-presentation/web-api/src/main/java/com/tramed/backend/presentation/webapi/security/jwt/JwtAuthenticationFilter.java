@@ -1,6 +1,6 @@
 package com.tramed.backend.presentation.webapi.security.jwt;
 
-import com.tramed.backend.presentation.webapi.security.user.AdminUserDetailsService;
+import com.tramed.backend.presentation.webapi.security.user.ApplicationUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +20,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private static final String BEARER_PREFIX = "Bearer ";
 
   private final JwtTokenProvider tokenProvider;
-  private final AdminUserDetailsService userDetailsService;
+  private final ApplicationUserDetailsService userDetailsService;
 
   public JwtAuthenticationFilter(
-      JwtTokenProvider tokenProvider, AdminUserDetailsService userDetailsService) {
+      JwtTokenProvider tokenProvider, ApplicationUserDetailsService userDetailsService) {
     this.tokenProvider = tokenProvider;
     this.userDetailsService = userDetailsService;
   }

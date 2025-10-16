@@ -1,6 +1,6 @@
 package com.tramed.backend.presentation.webapi.security.jwt;
 
-import com.tramed.backend.presentation.webapi.security.user.AdminUserDetails;
+import com.tramed.backend.presentation.webapi.security.user.ApplicationUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,13 +30,14 @@ public class JwtTokenProvider {
     this.signingKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(properties.secret()));
   }
 
-  public String generateToken(AdminUserDetails userDetails) {
+  public String generateToken(ApplicationUserDetails userDetails) {
     Instant now = Instant.now();
     Instant expiry = now.plus(properties.expirationInMinutes(), ChronoUnit.MINUTES);
 
     return Jwts.builder()
         .setSubject(userDetails.getUsername())
         .claim("uid", userDetails.getUserId().value().toString())
+        .claim("role", userDetails.getRole().name())
         .setIssuedAt(Date.from(now))
         .setExpiration(Date.from(expiry))
         .signWith(signingKey, SignatureAlgorithm.HS256)

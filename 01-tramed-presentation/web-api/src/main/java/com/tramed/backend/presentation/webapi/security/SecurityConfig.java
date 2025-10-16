@@ -3,7 +3,7 @@ package com.tramed.backend.presentation.webapi.security;
 import com.tramed.backend.presentation.webapi.security.jwt.JwtAuthenticationEntryPoint;
 import com.tramed.backend.presentation.webapi.security.jwt.JwtAuthenticationFilter;
 import com.tramed.backend.presentation.webapi.security.jwt.JwtProperties;
-import com.tramed.backend.presentation.webapi.security.user.AdminUserDetailsService;
+import com.tramed.backend.presentation.webapi.security.user.ApplicationUserDetailsService;
 import java.util.Arrays;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -27,17 +27,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableConfigurationProperties(JwtProperties.class)
 public class SecurityConfig {
 
-  private static final String[] AUTH_WHITELIST = {"/tra-med-api/auth/login"};
+  private static final String[] AUTH_WHITELIST = {
+    "/tra-med-api/auth/login", "/tra-med-api/auth/register"
+  };
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-  private final AdminUserDetailsService userDetailsService;
+  private final ApplicationUserDetailsService userDetailsService;
   private final boolean securityEnabled;
 
   public SecurityConfig(
       JwtAuthenticationFilter jwtAuthenticationFilter,
       JwtAuthenticationEntryPoint authenticationEntryPoint,
-      AdminUserDetailsService userDetailsService,
+      ApplicationUserDetailsService userDetailsService,
       Environment environment) {
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     this.authenticationEntryPoint = authenticationEntryPoint;

@@ -1,6 +1,7 @@
 -- Thêm dữ liệu mẫu vào bảng app_user
-INSERT INTO app_user (user_id, username, password_hash, full_name, active) VALUES
-                                                                              ('22222222-2222-2222-2222-222222222222', 'admin', '$2a$10$Dow1Ns/WSavwgJeayQM2jOB0ax3CjSxyxYh1SeDsICoZ6irMIXP3C', 'Administrator', true)
+INSERT INTO app_user (user_id, username, password_hash, full_name, active, role) VALUES
+                                                                              ('22222222-2222-2222-2222-222222222222', 'admin',
+                                                                              '$2a$10$Dow1Ns/WSavwgJeayQM2jOB0ax3CjSxyxYh1SeDsICoZ6irMIXP3C', 'Administrator', true, 'ADMIN')
 ON CONFLICT (user_id) DO NOTHING;
 
 -- Thêm dữ liệu mẫu vào bảng notification
@@ -19,3 +20,4 @@ INSERT INTO notification_content (notification_content_id, notification_id, cont
                                                                                                              ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '44444444-4444-4444-4444-444444444444', 'Bảo trì hệ thống', 'vi-VN', '22222222-2222-2222-2222-222222222222'),
                                                                                                              ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '44444444-4444-4444-4444-444444444444', 'System maintenance', 'en-US', '22222222-2222-2222-2222-222222222222')
 ON CONFLICT (notification_content_id) DO NOTHING;
+

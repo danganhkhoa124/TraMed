@@ -2,7 +2,7 @@ package com.tramed.backend.presentation.webapi.security;
 
 import com.tramed.backend.core.base.model.common.UserId;
 import com.tramed.backend.core.base.security.AuthenticatedUserProvider;
-import com.tramed.backend.presentation.webapi.security.user.AdminUserDetails;
+import com.tramed.backend.presentation.webapi.security.user.ApplicationUserDetails;
 import java.util.Optional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.Authentication;
@@ -20,8 +20,8 @@ public class SecurityAuthenticatedUserProvider implements AuthenticatedUserProvi
       return Optional.empty();
     }
     Object principal = authentication.getPrincipal();
-    if (principal instanceof AdminUserDetails adminUserDetails) {
-      return Optional.of(adminUserDetails.getUserId());
+    if (principal instanceof ApplicationUserDetails applicationUserDetails) {
+      return Optional.of(applicationUserDetails.getUserId());
     }
     return Optional.empty();
   }

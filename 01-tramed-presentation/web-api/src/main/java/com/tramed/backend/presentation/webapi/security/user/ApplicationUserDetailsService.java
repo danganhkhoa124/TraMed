@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AdminUserDetailsService implements UserDetailsService {
+public class ApplicationUserDetailsService implements UserDetailsService {
 
   private final UserService userService;
 
@@ -20,15 +20,15 @@ public class AdminUserDetailsService implements UserDetailsService {
     return userService
         .findByUsername(username)
         .filter(User::active)
-        .map(AdminUserDetails::new)
+        .map(ApplicationUserDetails::new)
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
   }
 
-  public AdminUserDetails loadActiveUser(String username) {
+  public ApplicationUserDetails loadActiveUser(String username) {
     return userService
         .findByUsername(username)
         .filter(User::active)
-        .map(AdminUserDetails::new)
+        .map(ApplicationUserDetails::new)
         .orElseThrow(() -> new UnauthorizedException("E0005"));
   }
 }
