@@ -17,10 +17,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(properties = "spring.profiles.active=test")
-@ActiveProfiles("test")
 @DisplayName("NotificationContentRepository")
 public class NotificationContentRepositoryTest {
   @Autowired private NotificationContentRepository notificationContentRepository;

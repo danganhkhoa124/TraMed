@@ -61,6 +61,6 @@ public class NotificationController {
       @RequestBody @Valid NotificationRequestForCreateUpdate request) {
     notificationService.insertNotification(
         Converter.convert(request, NotificationForCreateUpdate.class));
-    return new ResponseEntity<>(null, HttpStatus.CREATED);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 }

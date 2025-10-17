@@ -2,6 +2,7 @@ package com.tramed.backend.applicationcore.systemcore.service.notification;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,11 +17,13 @@ import com.tramed.backend.core.base.model.notification.NotificationId;
 import com.tramed.backend.core.base.model.notification.NotificationQueryResult;
 import com.tramed.backend.core.base.pagination.PageModel;
 import com.tramed.backend.core.base.pagination.PageRequest;
+import com.tramed.backend.core.base.security.AuthenticatedUserProvider;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationContentEntity;
 import com.tramed.backend.infrastructure.mybatis.entity.notification.NotificationEntity;
 import com.tramed.backend.infrastructure.mybatis.repository.NotificationContentRepository;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,12 +36,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class NotificationServiceTest {
 
   @Mock private NotificationContentRepository notificationContentRepository;
+  @Mock private AuthenticatedUserProvider authenticatedUserProvider;
 
   private NotificationService notificationService;
 
   @BeforeEach
   void setUp() {
-    notificationService = new NotificationService(notificationContentRepository);
+    notificationService =
+        new NotificationService(notificationContentRepository, authenticatedUserProvider);
+    lenient()
+        .when(authenticatedUserProvider.getCurrentUserId())
+        .thenReturn(
+            Optional.of(new UserId(UUID.fromString("22222222-2222-2222-2222-222222222222"))));
   }
 
   @Test

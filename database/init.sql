@@ -1,3 +1,14 @@
+-- Tạo bảng app_user
+CREATE TABLE IF NOT EXISTS app_user (
+                                        user_id UUID PRIMARY KEY,
+                                        username VARCHAR(100) UNIQUE NOT NULL,
+                                        password_hash VARCHAR(255) NOT NULL,
+                                        full_name VARCHAR(255),
+                                        active BOOLEAN DEFAULT FALSE,
+                                        role VARCHAR(20) NOT NULL,
+                                        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Tạo bảng notification
 CREATE TABLE IF NOT EXISTS notification (
                                             notification_id UUID PRIMARY KEY,
