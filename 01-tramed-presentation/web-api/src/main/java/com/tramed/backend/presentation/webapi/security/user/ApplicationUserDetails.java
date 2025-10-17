@@ -11,35 +11,35 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public record ApplicationUserDetails(User user) implements UserDetails {
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + user.role().name()));
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority("ROLE_" + user.role().name()));
+  }
 
-    @Override
-    public String getPassword() {
-        return user.passwordHash();
-    }
+  @Override
+  public String getPassword() {
+    return user.passwordHash();
+  }
 
-    @Override
-    public String getUsername() {
-        return user.username();
-    }
+  @Override
+  public String getUsername() {
+    return user.username();
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return user.active();
-    }
+  @Override
+  public boolean isEnabled() {
+    return user.active();
+  }
 
-    public UserId getUserId() {
-        return user.userId();
-    }
+  public UserId getUserId() {
+    return user.userId();
+  }
 
-    public String getFullName() {
-        return user.fullName();
-    }
+  public String getFullName() {
+    return user.fullName();
+  }
 
-    public UserRole getRole() {
-        return user.role();
-    }
+  public UserRole getRole() {
+    return user.role();
+  }
 }

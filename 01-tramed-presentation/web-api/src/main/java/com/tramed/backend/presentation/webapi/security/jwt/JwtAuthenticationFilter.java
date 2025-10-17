@@ -31,7 +31,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(
-          @NonNull HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain filterChain)
+      @NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response,
+      FilterChain filterChain)
       throws ServletException, IOException {
     extractToken(request)
         .ifPresent(
