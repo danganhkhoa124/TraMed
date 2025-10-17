@@ -9,58 +9,37 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class ApplicationUserDetails implements UserDetails {
+public record ApplicationUserDetails(User user) implements UserDetails {
 
-  private final User user;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.role().name()));
+    }
 
-  public ApplicationUserDetails(User user) {
-    this.user = user;
-  }
+    @Override
+    public String getPassword() {
+        return user.passwordHash();
+    }
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority("ROLE_" + user.role().name()));
-  }
+    @Override
+    public String getUsername() {
+        return user.username();
+    }
 
-  @Override
-  public String getPassword() {
-    return user.passwordHash();
-  }
+    @Override
+    public boolean isEnabled() {
+        return user.active();
+    }
 
-  @Override
-  public String getUsername() {
-    return user.username();
-  }
+    public UserId getUserId() {
+        return user.userId();
+    }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
+    public String getFullName() {
+        return user.fullName();
+    }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
-
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
-
-  @Override
-  public boolean isEnabled() {
-    return user.active();
-  }
-
-  public UserId getUserId() {
-    return user.userId();
-  }
-
-  public String getFullName() {
-    return user.fullName();
-  }
-
-  public UserRole getRole() {
-    return user.role();
-  }
+    public UserRole getRole() {
+        return user.role();
+    }
 }

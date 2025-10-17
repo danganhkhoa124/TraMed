@@ -14,7 +14,6 @@ bootJar {
 	enabled = false
 }
 
-
 java {
 	sourceCompatibility = libs.versions.java.get()
 }

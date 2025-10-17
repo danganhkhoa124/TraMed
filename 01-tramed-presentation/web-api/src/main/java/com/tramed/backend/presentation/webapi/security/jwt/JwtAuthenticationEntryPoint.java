@@ -1,7 +1,6 @@
 package com.tramed.backend.presentation.webapi.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -27,7 +26,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
       HttpServletRequest request,
       HttpServletResponse response,
       AuthenticationException authException)
-      throws IOException, ServletException {
+      throws IOException {
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
