@@ -11,10 +11,15 @@ import com.tramed.backend.presentation.webapi.model.auth.RegisterResponse;
 import com.tramed.backend.presentation.webapi.model.auth.UpdateUserStatusRequest;
 import com.tramed.backend.presentation.webapi.security.jwt.JwtProperties;
 import com.tramed.backend.presentation.webapi.security.jwt.JwtTokenProvider;
+import com.tramed.backend.presentation.webapi.security.jwt.JwtTokenStore;
 import com.tramed.backend.presentation.webapi.security.user.ApplicationUserDetails;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.time.Duration;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +27,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,10 +40,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/tra-med-api/auth")
 public class AuthenticationController {
 
+  private static final String BEARER_PREFIX = "Bearer ";
+
   private final AuthenticationManager authenticationManager;
   private final JwtTokenProvider jwtTokenProvider;
   private final JwtProperties jwtProperties;
   private final UserService userService;
+  private final JwtTokenStore jwtTokenStore;
 
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
@@ -47,6 +56,7 @@ public class AuthenticationController {
               new UsernamePasswordAuthenticationToken(request.username(), request.password()));
       ApplicationUserDetails userDetails = (ApplicationUserDetails) authentication.getPrincipal();
       String token = jwtTokenProvider.generateToken(userDetails);
+      jwtTokenStore.store(token, Duration.ofMinutes(jwtProperties.expirationInMinutes()));
       return ResponseEntity.ok(
           new LoginResponse(
               token,
@@ -57,6 +67,13 @@ public class AuthenticationController {
     } catch (AuthenticationException ex) {
       throw new UnauthorizedException("E0005");
     }
+  }
+
+  @PostMapping("/logout")
+  public ResponseEntity<Void> logout(HttpServletRequest request) {
+    extractToken(request).ifPresent(jwtTokenStore::remove);
+    SecurityContextHolder.clearContext();
+    return ResponseEntity.noContent().build();
   }
 
   @PostMapping("/register")
@@ -79,5 +96,13 @@ public class AuthenticationController {
       @PathVariable UUID userId, @RequestBody @Valid UpdateUserStatusRequest request) {
     userService.updateUserStatus(new UserId(userId), request.active());
     return ResponseEntity.noContent().build();
+  }
+
+  private Optional<String> extractToken(HttpServletRequest request) {
+    String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+    if (header != null && header.startsWith(BEARER_PREFIX)) {
+      return Optional.of(header.substring(BEARER_PREFIX.length()));
+    }
+    return Optional.empty();
   }
 }

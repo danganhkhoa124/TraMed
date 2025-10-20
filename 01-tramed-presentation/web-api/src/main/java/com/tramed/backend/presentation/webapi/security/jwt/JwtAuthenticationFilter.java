@@ -22,11 +22,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtTokenProvider tokenProvider;
   private final ApplicationUserDetailsService userDetailsService;
+  private final JwtTokenStore tokenStore;
 
   public JwtAuthenticationFilter(
-      JwtTokenProvider tokenProvider, ApplicationUserDetailsService userDetailsService) {
+      JwtTokenProvider tokenProvider,
+      ApplicationUserDetailsService userDetailsService,
+      JwtTokenStore tokenStore) {
     this.tokenProvider = tokenProvider;
     this.userDetailsService = userDetailsService;
+    this.tokenStore = tokenStore;
   }
 
   @Override
@@ -40,6 +44,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             token -> {
               if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 try {
+                  if (!tokenStore.exists(token)) {
+                    return;
+                  }
                   String username = tokenProvider.getUsernameFromToken(token);
                   var userDetails = userDetailsService.loadActiveUser(username);
                   if (tokenProvider.validateToken(token, userDetails)) {
