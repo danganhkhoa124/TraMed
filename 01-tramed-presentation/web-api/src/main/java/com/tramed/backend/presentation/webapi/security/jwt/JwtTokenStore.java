@@ -20,7 +20,7 @@ public class JwtTokenStore {
   }
 
   public boolean exists(String token) {
-    return Boolean.TRUE.equals(redisTemplate.hasKey(buildKey(token)));
+    return redisTemplate.hasKey(buildKey(token));
   }
 
   public void remove(String token) {

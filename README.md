@@ -5,9 +5,9 @@ TraMed is a modular Spring Boot backend composed of shared core libraries, an ap
 
 ### Module layout
 - `00-tramed-core` – shared base abstractions and utilities that are reused by the rest of the codebase.
+- `01-tramed-presentation/web-api` – the Spring Boot application that wires the layers together and exposes HTTP endpoints.
 - `02-tramed-application-core` – application services and business logic.
 - `03-tramed-infrastructure` – infrastructure adapters such as MyBatis integrations.
-- `01-tramed-presentation/web-api` – the Spring Boot application that wires the layers together and exposes HTTP endpoints.
 
 ## Technologies
 - **Java 21** with the Gradle 8.13 toolchain.
