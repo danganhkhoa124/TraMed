@@ -17,5 +17,18 @@ services:
       - ./entrypoint.sh:/entrypoint.sh
     entrypoint: ["/entrypoint.sh"]
 
+  redis:
+    image: redis:7-alpine
+    container_name: redis_cache
+    restart: always
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-tramed}
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\" --appendonly yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
 volumes:
   postgres_data:
+  redis_data:
