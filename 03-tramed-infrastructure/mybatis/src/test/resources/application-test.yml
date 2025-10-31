@@ -1,12 +1,13 @@
 spring:
   datasource:
-    url: "jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:testDb}"
-    username: "${DB_USER:testUser}"
-    password: "${DB_PASSWORD:abcd@1234}"
+    url: "jdbc:postgresql://${DB_HOST:${POSTGRES_HOST:localhost}}:${DB_PORT:${POSTGRES_PORT:5432}}/${DB_NAME:${POSTGRES_DB:testDb}}"
+    username: "${DB_USER:${POSTGRES_USER:testUser}}"
+    password: "${DB_PASSWORD:${POSTGRES_PASSWORD:abcd@1234}}"
     driver-class-name: org.postgresql.Driver
 
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+  mapper-locations: classpath*:mapper/**/*.xml
   type-aliases-package: com.tramed.backend.infrastructure.mybatis.entity
   type-handlers-package: com.tramed.backend.infrastructure.mybatis.typehandler
