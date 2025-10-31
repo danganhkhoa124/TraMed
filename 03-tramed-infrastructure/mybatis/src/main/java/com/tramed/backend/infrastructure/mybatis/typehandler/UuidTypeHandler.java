@@ -9,6 +9,7 @@ import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
 
+@SuppressWarnings("unused")
 @MappedTypes(UUID.class)
 public class UuidTypeHandler extends BaseTypeHandler<UUID> {
 
