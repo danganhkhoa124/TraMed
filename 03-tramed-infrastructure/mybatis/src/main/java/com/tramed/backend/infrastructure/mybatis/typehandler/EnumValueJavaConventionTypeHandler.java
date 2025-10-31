@@ -15,7 +15,8 @@ import org.apache.ibatis.type.MappedTypes;
  *
  * @param <E> enum class
  */
-@MappedTypes(Enum.class)
+@SuppressWarnings("unused")
+@MappedTypes(EnumDBColumn.class)
 public class EnumValueJavaConventionTypeHandler<E extends Enum<E> & EnumDBColumn>
     extends BaseTypeHandler<E> {
 
