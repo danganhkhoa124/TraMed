@@ -4,9 +4,6 @@ spring:
     username: ${DB_USER:testUser}
     password: ${DB_PASSWORD:abcd@1234}
     driver-class-name: org.postgresql.Driver
-    hikari:
-      minimum-idle: 1
-      maximum-pool-size: 5
-      connection-timeout: 30000
+
 security:
   test-user-id: 22222222-2222-2222-2222-222222222222
