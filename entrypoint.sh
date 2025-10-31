@@ -17,19 +17,22 @@ done
 
 echo "PostgreSQL is ready."
 
+# Resolve target database name from environment variables
+TARGET_DB="${DB_NAME:-${POSTGRES_DB:-tramed}}"
+
 # Check if the database already exists
-if ! su - postgres -c "psql -lqt" | grep -qw tramed; then
-  echo "Creating tramed database..."
-  su - postgres -c "createdb tramed"
+if ! su - postgres -c "psql -lqt" | awk '{print $1}' | grep -qw "$TARGET_DB"; then
+  echo "Creating ${TARGET_DB} database..."
+  su - postgres -c "createdb ${TARGET_DB}"
 fi
 
 # Run init.sql
 echo "Executing init.sql to create table structure..."
-su - postgres -c "psql -d tramed -f /docker-entrypoint-initdb.d/init.sql"
+su - postgres -c "psql -d ${TARGET_DB} -f /docker-entrypoint-initdb.d/init.sql"
 
 # Run seed.sql after creating the table structure
 echo "Executing seed.sql to create sample data..."
-su - postgres -c "psql -d tramed -f /docker-entrypoint-initdb.d/seed.sql"
+su - postgres -c "psql -d ${TARGET_DB} -f /docker-entrypoint-initdb.d/seed.sql"
 
 echo "Database initialization completed."
 
