@@ -6,9 +6,14 @@ services:
     container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: abcd@1234
-      POSTGRES_DB: tramed
+      POSTGRES_USER: ${POSTGRES_USER:-testUser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-abcd@1234}
+      POSTGRES_DB: ${POSTGRES_DB:-testDb}
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-testDb}
+      DB_USER: ${DB_USER:-testUser}
+      DB_PASSWORD: ${DB_PASSWORD:-abcd@1234}
     ports:
       - "5432:5432"
     volumes:

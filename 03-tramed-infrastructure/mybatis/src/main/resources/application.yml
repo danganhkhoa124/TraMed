@@ -1,19 +1,9 @@
 spring:
   datasource:
-    url: "jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:testDb}"
-    username: "${DB_USER:testUser}"
-    password: "${DB_PASSWORD:abcd@1234}"
+    url: "jdbc:postgresql://${DB_HOST:${POSTGRES_HOST:localhost}}:${DB_PORT:${POSTGRES_PORT:5432}}/${DB_NAME:${POSTGRES_DB:testDb}}"
+    username: "${DB_USER:${POSTGRES_USER:testUser}}"
+    password: "${DB_PASSWORD:${POSTGRES_PASSWORD:abcd@1234}}"
     driver-class-name: org.postgresql.Driver
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      minimum-idle: 5
-      connection-test-query: SELECT 1
-      maximum-pool-size: 20
-      auto-commit: true
-      idle-timeout: 30000
-      pool-name: SpringBootHikariCP
-      max-lifetime: 60000
-      connection-timeout: 30000
 
 mybatis:
   configuration:
